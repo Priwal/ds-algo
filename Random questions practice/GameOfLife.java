@@ -11,66 +11,33 @@ public class GameOfLife {
         while (t-- > 0) {
             int n = sc.nextInt();
             int m = sc.nextInt();
-            char[] arr = sc.next().toCharArray();
-            ArrayList<Integer> al = new ArrayList<>();
+            String s = sc.next();
+            char[] ch = s.toCharArray();
+            int left = 0;
+            for (int i = 0; i < m; i++) {
 
-            // queue containing indices for elements which are 1
-            Queue<Integer> q = new LinkedList<>();
-            for (int i = 0; i < n; i++) {
-                if (arr[i] == '1')
-                    q.add(i);
-            }
-            q.add(-1);
-            while (m > 0) {
+                left = 0;
 
-                while (q.peek() != -1) {
-                    int curr_index = q.poll();
-                    if (curr_index - 1 >= 0 && arr[curr_index - 1] == '0') {
-                        if (curr_index - 1 == 0) {
-                            // arr[curr_index - 1] = '1';
-                            al.add(curr_index - 1);
-
-                            q.add(curr_index - 1);
-                        } else {
-                            if (arr[curr_index - 2] != '1') {
-                                // arr[curr_index - 1] = '1';
-                                al.add(curr_index - 1);
-                                q.add(curr_index - 1);
-                            }
-                        }
+                for (int j = 0; j < n; j++) {
+                    if (ch[j] == '1') {
+                        left = 1;
+                        continue;
                     }
 
-                    if (curr_index + 1 < n && arr[curr_index + 1] == '0') {
-                        if (curr_index + 1 == n - 1) {
-                            // arr[curr_index + 1] = '1';
-                            al.add(curr_index + 1);
-                            q.add(curr_index + 1);
-                        } else {
-                            if (arr[curr_index + 2] != '1') {
-                                // arr[curr_index + 1] = '1';
-                                al.add(curr_index + 1);
-                                q.add(curr_index + 1);
-                            }
-                        }
+                    int right = j == n - 1 || ch[j + 1] == '0' ? 0 : 1;
 
+                    if (left != right) {
+                        ch[j] = '1';
+                        left = 0;
                     }
-
                 }
-                q.poll();
-                q.add(-1);
-
-                m--;
             }
 
-            for (int i = 0; i < al.size(); i++) {
-                arr[al.get(i)] = '1';
-            }
-            for (int i = 0; i < n; i++) {
-                System.out.print(arr[i]);
-            }
+            System.out.print(ch);
 
             System.out.println();
         }
 
     }
+
 }
